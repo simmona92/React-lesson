@@ -1,18 +1,18 @@
 import React from 'react';
 import './PostContent.css';
 
-function PostContent() {
+function PostContent(props) {
   return (
     <>
       <div className="container">
         <div className="row">
           <div className="col">
-            <h3 className='text-success'>Antraštė</h3>
-            <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <h3 className='text-success'>{props.titleOne}</h3>
+            <p>{props.text}</p>
           </div>
           <div className="col">
-            <h3 className='text-primary'>Antraštė</h3>
-            <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <h3 className='text-primary'>{props.titleTwo}</h3>
+            <p>{props.text}</p>
           </div>
         </div>
       </div>

@@ -12,11 +12,13 @@ function Box() {
           </div>
           <div className="Box col bg-success m-1">
           </div>
+          <div className="Box col bg-success m-1">
+          </div>
         </div>
       </div>
     </>
     
-  )
+  );
 }
 
 export default Box;
