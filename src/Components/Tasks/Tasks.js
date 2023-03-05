@@ -41,6 +41,7 @@ let data = [
     }
 ];
 function Tasks() {
+    const [taskInput, setTaskInput] = useState('');
     const [tasks, setTasks] = useState(data);
     
     const changeStatus = (id) => {
@@ -56,14 +57,25 @@ function Tasks() {
         setTasks(tasks.filter((task) => 
             task.id !== id
         ));
-    }
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if(taskInput) {
+            let newTask = {id: tasks.length + 1, taskTitle: taskInput, status: false};
+            setTasks((lastData) => [...lastData, newTask]);
+            setTaskInput('');
+        };
+    };
     let AllTasks = tasks.map((task) => {
         return (
-            <Task id = {task.id} taskTitle = {task.taskTitle} status = {task.status} changeStatus = {changeStatus} deleteTask = {deleteTask}/>
+            <Task key = {uuidv4()} id = {task.id} taskTitle = {task.taskTitle} status = {task.status} changeStatus = {changeStatus} deleteTask = {deleteTask}/>
         );
     });
   return (
     <div>
+        <form onSubmit={handleSubmit}>
+            <input onChange = {(e) => setTaskInput(e.target.value)} type="text" id = "taskInput" name = "taskInput" value = {taskInput} className="form-control" placeholder="Enter a task" aria-label="Enter a task" aria-describedby="addon-wrapping"></input>
+        </form>
         {AllTasks}
     </div>
   );
