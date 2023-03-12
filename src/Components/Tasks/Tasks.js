@@ -74,7 +74,7 @@ function Tasks() {
   return (
     <div>
         <form onSubmit={handleSubmit}>
-            <input onChange = {(e) => setTaskInput(e.target.value)} type="text" id = "taskInput" name = "taskInput" value = {taskInput} className="form-control" placeholder="Enter a task" aria-label="Enter a task" aria-describedby="addon-wrapping"></input>
+            <input onChange = {(e) => setTaskInput(e.target.value)} type="text" id = "taskInput" name = "taskInput" value = {taskInput} className="form-control" placeholder="Add new task"></input>
         </form>
         {AllTasks}
     </div>
