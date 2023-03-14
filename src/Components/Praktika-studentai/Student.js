@@ -3,7 +3,7 @@ import Students from './Students';
 import {RiEdit2Fill, RiDeleteBin5Fill} from 'react-icons/ri';
 
 function Student(props) {
-    let {id, name, surname, birthYear, city, program, group, deleteStudent, editStudent} = props;
+    let {id, name, surname, birthYear, city, program, group, deleteStudent, handleEditStudent} = props;
   return (
     <tr>
         <td>{name}</td>
@@ -13,7 +13,7 @@ function Student(props) {
         <td>{program}</td>
         <td>{group}</td>
         <td className= " d-flex flex-row gap-1">
-            <a onClick={() => editStudent(id)} className="btn btn-warning btn-sm" href="#" role="button"><RiEdit2Fill/></a>
+            <a onClick={() => handleEditStudent(id)} className="btn btn-warning btn-sm" href="#" role="button"><RiEdit2Fill/></a>
             <a onClick = {() => deleteStudent(id)} className="btn btn-danger btn-sm text-dark" href="#" role="button"><RiDeleteBin5Fill/></a>
         </td>
     </tr>

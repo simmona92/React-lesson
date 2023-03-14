@@ -34,7 +34,7 @@ function Students() {
     const [programInput, setProgramInput] = useState('');
     const [groupInput, setGroupInput] = useState('');
     const [updateStudent, setUpdateStudent] = useState({});
-    const [editTask, setEditTask] = useState(false);
+    const [editStudent, setEditStudent] = useState(false);
 
     const deleteStudent = (id) => {
         setStudents(students.filter((student) =>
@@ -43,7 +43,7 @@ function Students() {
     };
 
     const handleEditStudent = (id) => {
-        setEditTask(true);
+        setEditStudent(true);
         let findStudent = students.find(student => student.id == id);
         setNameInput(findStudent.name);
         setSurnameInput(findStudent.surname);
@@ -52,24 +52,21 @@ function Students() {
         setProgramInput(findStudent.program);
         setGroupInput(findStudent.group);
         setUpdateStudent(findStudent);
-        console.log(findStudent);
-        (() => console.log(updateStudent))();
-    }
+    };
 
-    function handleUpdateTask({ id, name, surname, birthYear, city, program, group }) {
-        const newTasksStudent = students.map((student) => {
+    function handleUpdateStudent({ id }) {
+        const newStudentList = students.map((student) => {
             if (student.id === id) {
-                return { id: uuidv4(), status: true, name: name, surname: surname, birthYear: birthYear, city: city, program: program, group: group }
+                return { id: uuidv4(), status: true, name: nameInput, surname: surnameInput, birthYear: birthYearInput, city: cityInput, program: programInput, group: groupInput }
             }
             return student;
-        })
-        console.log(newTasksStudent);
-        setStudents(newTasksStudent);
+        });
+        setStudents(newStudentList);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!editTask) {
+        if (!editStudent) {
             let newStudent = { id: uuidv4(), status: true, name: nameInput, surname: surnameInput, birthYear: birthYearInput, city: cityInput, program: programInput, group: groupInput };
             setStudents((oldList) => [...oldList, newStudent]);
             setNameInput('');
@@ -79,15 +76,21 @@ function Students() {
             setProgramInput('');
             setGroupInput('');
         } else {
-            console.log(updateStudent);
-            handleUpdateTask(updateStudent);
+            handleUpdateStudent(updateStudent);
+            setNameInput('');
+            setSurnameInput('');
+            setBirthYearInput('');
+            setCityInput('');
+            setProgramInput('');
+            setGroupInput('');
+            setEditStudent(false);
         }
     };
 
 
     let allStudents = students.map((student) => {
         return (
-            <Student key={uuidv4()} id={student.id} status={student.status} name={student.name} surname={student.surname} birthYear={student.birthYear} city={student.city} program={student.program} group={student.group} deleteStudent={deleteStudent} editStudent={handleEditStudent} />
+            <Student key={uuidv4()} id={student.id} status={student.status} name={student.name} surname={student.surname} birthYear={student.birthYear} city={student.city} program={student.program} group={student.group} deleteStudent={deleteStudent} handleEditStudent={handleEditStudent} />
         );
     });
     return (
