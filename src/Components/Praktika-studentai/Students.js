@@ -1,7 +1,7 @@
 import React from 'react';
 import Student from './Student';
 import { useState } from 'react';
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 let studentsData = [
     {
@@ -33,15 +33,44 @@ function Students() {
     const [cityInput, setCityInput] = useState('');
     const [programInput, setProgramInput] = useState('');
     const [groupInput, setGroupInput] = useState('');
+    const [updateStudent, setUpdateStudent] = useState({});
+    const [editTask, setEditTask] = useState(false);
+
     const deleteStudent = (id) => {
-        setStudents(students.filter((student) => 
+        setStudents(students.filter((student) =>
             student.id !== id
         ));
     };
+
+    const handleEditStudent = (id) => {
+        setEditTask(true);
+        let findStudent = students.find(student => student.id == id);
+        setNameInput(findStudent.name);
+        setSurnameInput(findStudent.surname);
+        setBirthYearInput(findStudent.birthYear);
+        setCityInput(findStudent.city);
+        setProgramInput(findStudent.program);
+        setGroupInput(findStudent.group);
+        setUpdateStudent(findStudent);
+        console.log(findStudent);
+        (() => console.log(updateStudent))();
+    }
+
+    function handleUpdateTask({ id, name, surname, birthYear, city, program, group }) {
+        const newTasksStudent = students.map((student) => {
+            if (student.id === id) {
+                return { id: uuidv4(), status: true, name: name, surname: surname, birthYear: birthYear, city: city, program: program, group: group }
+            }
+            return student;
+        })
+        console.log(newTasksStudent);
+        setStudents(newTasksStudent);
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(true){
-            let newStudent = {id: students.id +1, status: true, name: nameInput, surname: surnameInput, birthYear: birthYearInput, city: cityInput, program: programInput, group: groupInput};
+        if (!editTask) {
+            let newStudent = { id: uuidv4(), status: true, name: nameInput, surname: surnameInput, birthYear: birthYearInput, city: cityInput, program: programInput, group: groupInput };
             setStudents((oldList) => [...oldList, newStudent]);
             setNameInput('');
             setSurnameInput('');
@@ -49,58 +78,64 @@ function Students() {
             setCityInput('');
             setProgramInput('');
             setGroupInput('');
-        };
+        } else {
+            console.log(updateStudent);
+            handleUpdateTask(updateStudent);
+        }
     };
+
+
     let allStudents = students.map((student) => {
         return (
-            <Student key = {uuidv4()} id = {student.id}  status = {student.status} name = {student.name} surname = {student.surname} birthYear = {student.birthYear} city = {student.city} program = {student.program} group = {student.group} deleteStudent = {deleteStudent} />
+            <Student key={uuidv4()} id={student.id} status={student.status} name={student.name} surname={student.surname} birthYear={student.birthYear} city={student.city} program={student.program} group={student.group} deleteStudent={deleteStudent} editStudent={handleEditStudent} />
         );
     });
-  return (
-    <>
-    <p>Add new student:</p>
-    <form onSubmit={handleSubmit} >
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Name</span>
-            <input onChange = {(e) => setNameInput(e.target.value)} type="text" id = "nameInput" name = "nameInput" value = {nameInput} class="form-control"></input>
-        </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Surname</span>
-            <input onChange = {(e) => setSurnameInput(e.target.value)} type="text" id = "surnameInput" name = "surnameInput" value={surnameInput} class="form-control"></input>
-        </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Birth year</span>
-            <input onChange = {(e) => setBirthYearInput(e.target.value)} type="text" id = "birthYearInput" name = "birthYearInput" value={birthYearInput} class="form-control"></input>
-        </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">City</span>
-            <input onChange = {(e) => setCityInput(e.target.value)} type="text" id = "cityInput" name = "cityInput" value = {cityInput} class="form-control"></input>
-        </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Program</span>
-            <input onChange = {(e) => setProgramInput(e.target.value)} type="text" id = "programInput" name = "programInput" value={programInput} class="form-control"></input>
-        </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Group</span>
-            <input onChange = {(e) => setGroupInput(e.target.value)} type="text" id = "groupInput" name = "groupInput" value={groupInput} class="form-control"></input>
-        </div>
-    </form>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Surname</th>
-                <th scope="col">Birth year</th>
-                <th scope="col">City</th>
-                <th scope="col">Program</th>
-                <th scope="col">Group</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody class="table-group-divider">{allStudents}</tbody>
-    </table>
-    </>
-  )
+    return (
+        <>
+            <p>Add new student:</p>
+            <form onSubmit={handleSubmit} >
+                <div className="input-group mb-3">
+                    <span className="input-group-text" id="basic-addon1">Name</span>
+                    <input onChange={(e) => setNameInput(e.target.value)} type="text" id="nameInput" name="nameInput" value={nameInput} className="form-control"></input>
+                </div>
+                <div className="input-group mb-3">
+                    <span className="input-group-text" id="basic-addon1">Surname</span>
+                    <input onChange={(e) => setSurnameInput(e.target.value)} type="text" id="surnameInput" name="surnameInput" value={surnameInput} className="form-control"></input>
+                </div>
+                <div className="input-group mb-3">
+                    <span className="input-group-text" id="basic-addon1">Birth year</span>
+                    <input onChange={(e) => setBirthYearInput(e.target.value)} type="text" id="birthYearInput" name="birthYearInput" value={birthYearInput} className="form-control"></input>
+                </div>
+                <div className="input-group mb-3">
+                    <span className="input-group-text" id="basic-addon1">City</span>
+                    <input onChange={(e) => setCityInput(e.target.value)} type="text" id="cityInput" name="cityInput" value={cityInput} className="form-control"></input>
+                </div>
+                <div className="input-group mb-3">
+                    <span className="input-group-text" id="basic-addon1">Program</span>
+                    <input onChange={(e) => setProgramInput(e.target.value)} type="text" id="programInput" name="programInput" value={programInput} className="form-control"></input>
+                </div>
+                <div className="input-group mb-3">
+                    <span className="input-group-text" id="basic-addon1">Group</span>
+                    <input onChange={(e) => setGroupInput(e.target.value)} type="text" id="groupInput" name="groupInput" value={groupInput} className="form-control"></input>
+                </div>
+                <button onClick={handleSubmit} type="button" className="btn btn-secondary">Submit</button>
+            </form>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th className="col">Name</th>
+                        <th className="col">Surname</th>
+                        <th className="col">Birth year</th>
+                        <th className="col">City</th>
+                        <th className="col">Program</th>
+                        <th className="col">Group</th>
+                        <th className="col"></th>
+                    </tr>
+                </thead>
+                <tbody className="table-group-divider">{allStudents}</tbody>
+            </table>
+        </>
+    )
 }
 
 export default Students;
