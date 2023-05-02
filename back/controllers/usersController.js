@@ -1,7 +1,9 @@
 const User = require("../models/usersModel");
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const salt = bcrypt.genSaltSync(10);
+const secret = 'sdf5dfsdf58';
 
 exports.createNewUser = async (req, res) => {
     const {username, password} = req.body;
@@ -18,3 +20,17 @@ exports.createNewUser = async (req, res) => {
         });
     }
 };
+
+exports.loginUser = async (req, res) => {
+    const {username, password} = req.body;
+    const userLog = await User.findOne({username});
+    const passOk = bcrypt.compareSync(password, userLog.password);
+    if(passOk){
+        jwt.sign({username, id:userLog._id}, secret, {}, (err, token) => {
+            if (err) throw err;
+            res.cookie('token', token).json('ok');
+         });
+    } else { 
+        res.status(400).json('wrong credentials');
+    }
+}
