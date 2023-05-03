@@ -7,7 +7,7 @@ function Register() {
 
     const registerUser =  async (e) => {
         e.preventDefault();
-        await fetch('http://localhost:4000/api/v1/register/', {
+        await fetch('http://localhost:4000/api/v1/auth/register', {
             method: 'POST',
             body: JSON.stringify({username, password}),
             headers: {

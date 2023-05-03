@@ -7,12 +7,14 @@ function Login() {
 
   const loginUser = async (e) => {
     e.preventDefault();
-    await fetch('http://localhost:4000/api/v1/login/', {
+    await fetch('http://localhost:4000/api/v1/auth/login', {
         method: 'POST',
         body: JSON.stringify({username, password}),
         headers: {
           'Content-type': 'application/json'
       }, 
+    }).then((response)=>{
+      console.log(response)
     })
   };
   return (
