@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const loginUser = async (e) => {
+   
+   const loginUser = async (e) => {
     e.preventDefault();
-    await fetch('http://localhost:4000/api/v1/auth/login', {
+      await fetch('http://localhost:4000/api/v1/auth/login', {
         method: 'POST',
         body: JSON.stringify({username, password}),
         headers: {
           'Content-type': 'application/json'
       }, 
-    }).then((response)=>{
+    }).then((response)=> {
       console.log(response)
-    })
-  };
+      if(response.ok){
+        navigate("/Components/Pages")
+      }
+    });
+  }
+   
+    
   return (
     <div className='Container'>
         <form onSubmit={loginUser}>
