@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const salt = bcrypt.genSaltSync(10);
-const secret = 'sdf5dfsdf58';
 
 exports.createNewUser = async (req, res) => {
     const {username, password} = req.body;
@@ -26,7 +25,7 @@ exports.loginUser = async (req, res) => {
     const userLog = await User.findOne({username});
     const passOk = bcrypt.compareSync(password, userLog.password);
     if(passOk){
-        jwt.sign({username, id:userLog._id}, secret, {}, (err, token) => {
+        jwt.sign({username, id:userLog._id}, process.env.JWT_SECRET, {}, (err, token) => {
             if (err) throw err;
             res.cookie('token', token).json('ok');
          });

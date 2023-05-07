@@ -15,7 +15,7 @@ app.use((req, res, next) => {
 // middleware - decode JSON data for POST, PUT, PATCH
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
 app.use("/api/v1/todos", todoRouter);
 app.use("/api/v1/auth", usersRouter);
