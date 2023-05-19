@@ -30,9 +30,9 @@ function Login() {
 
   return (
     <>
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className="navbar navbar-expand bg-body-tertiary">
         <div className="container-fluid">
-          <h5 className="navbar-brand" href="#">Navbar</h5>
+          <h5 className="navbar-brand">Navbar</h5>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">

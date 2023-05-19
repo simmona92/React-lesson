@@ -28,8 +28,12 @@ exports.loginUser = async (req, res) => {
         jwt.sign({username, id:userLog._id}, process.env.JWT_SECRET, {}, (err, token) => {
             if (err) throw err;
             res.cookie('token', token).json('ok');
-         });
-    } else { 
+         })
+    } else {
         res.status(400).json('wrong credentials');
     }
+};
+
+exports.logoutUser = async (req, res) => {
+    res.cookie('token', '').json('ok');
 }
